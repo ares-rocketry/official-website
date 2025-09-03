@@ -7,6 +7,7 @@ import './App.css'
 
 const ThreeDScene = () => {
   useEffect(() => {
+    console.log('ThreeDScene useEffect is running');
     // Set up the scene, camera, and renderer
     const scene = new THREE.Scene();
 
@@ -21,9 +22,11 @@ const ThreeDScene = () => {
     renderer.domElement.style.left = '0';
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
+    renderer.domElement.style.pointerEvents = 'auto'; // Ensure mouse dragging work, don't set to 'fixed'
 
     const container = document.getElementById('three-container');
-    console.log(container);
+    console.log('Container:', container);
+    console.log('Renderer element:', renderer.domElement);
     container.appendChild(renderer.domElement);
 
     // Variables for drag interaction
@@ -77,6 +80,7 @@ const ThreeDScene = () => {
 
     // Drag-to-rotate implementation
     const onMouseDown = (event) => {
+      console.log('Mouse down detected!', event.type, 'model:', model, 'clientX:', event.clientX);
       isDragging = true;
       previousMouseX = event.clientX;
     };
@@ -87,6 +91,7 @@ const ThreeDScene = () => {
         const rotationSpeed = 0.005;
         model.rotation.y += deltaX * rotationSpeed;
         previousMouseX = event.clientX;
+        console.log('Rotating model, new rotation:', model.rotation.y);
       }
     };
 
@@ -94,9 +99,11 @@ const ThreeDScene = () => {
       isDragging = false;
     };
 
+    console.log('Adding event listeners to renderer element');
     renderer.domElement.addEventListener('mousedown', onMouseDown);
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
+    renderer.domElement.addEventListener('mousemove', onMouseMove);
+    renderer.domElement.addEventListener('mouseup', onMouseUp);
+    console.log('Event listeners added');
 
     // Scroll-to-reveal implementation
     const minY = 300;
@@ -149,8 +156,8 @@ const ThreeDScene = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
+      renderer.domElement.removeEventListener('mousemove', onMouseMove);
+      renderer.domElement.removeEventListener('mouseup', onMouseUp);
       renderer.domElement.removeEventListener('mousedown', onMouseDown);
       renderer.dispose();
       container.removeChild(renderer.domElement);
