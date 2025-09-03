@@ -80,7 +80,7 @@ const ThreeDScene = () => {
 
     // Drag-to-rotate implementation
     const onMouseDown = (event) => {
-      console.log('Mouse down detected!', event.type, 'model:', model, 'clientX:', event.clientX);
+      console.log('Mouse down, model:', model);
       isDragging = true;
       previousMouseX = event.clientX;
     };
@@ -122,7 +122,11 @@ const ThreeDScene = () => {
       const scrollY = window.scrollY;
       const scrollRange = document.body.scrollHeight - window.innerHeight;
       const scrollPercent = Math.min(scrollY / scrollRange, 1);
-      camera.position.y = minY + (maxY - minY) * scrollPercent;
+      
+      // Add easing function for smoother movement
+      const easedPercent = Math.pow(scrollPercent, 2); // ease out scrolling/ slower at the beginning
+      
+      camera.position.y = minY + (maxY - minY) * easedPercent;
       
       // Keep lookAt fixed at the rocket's position - don't move the target
     
@@ -130,7 +134,7 @@ const ThreeDScene = () => {
       // Update progress bar
       const progressBar = document.getElementById('scroll-progress');
       if (progressBar) {
-        progressBar.style.width = `${scrollPercent * 100}%`;
+        progressBar.style.width = `${easedPercent * 100}%`;
       }
     };
     window.addEventListener('scroll', handleScroll);
