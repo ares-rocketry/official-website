@@ -1,10 +1,10 @@
-Lemaire 3D Rocket Website
+## Lemaire 3D Rocket Website
 
 A static 3D interactive website showcasing the Lemaire rocket using Three.js and React. Users can drag to rotate the rocket and scroll to reveal its full height.
 
 ⸻
 
-Project Core Structure
+### Project Core Structure
 
 my-app/
 ├─ public/
@@ -19,7 +19,7 @@ my-app/
 
 ⸻
 
-Features
+### Features
 	•	Fully interactive 3D rocket model.
 	•	Drag rotation: Click and drag horizontally to rotate the rocket.
 	•	Scroll reveal: Camera moves vertically to reveal the entire rocket as you scroll.
@@ -28,7 +28,7 @@ Features
 
 ⸻
 
-Technology Stack
+### Technology Stack
 	•	React – Frontend framework
 	•	Three.js – 3D rendering engine
 	•	GLTFLoader – Load .glb 3D models
@@ -36,11 +36,13 @@ Technology Stack
 
 ⸻
 
-Installation & Setup
+### Installation & Setup
 	1.	Clone the repository
 
+```
 git clone <repo>
 cd <repo-name>
+```
 
 	2.	Install Node.js dependencies
 
@@ -60,14 +62,13 @@ cd <repo-name>
 Navigate to http://localhost:3000 in your browser (for now til domain name is purchased!)
 
 ⸻
-
-Usage
+### Usage
 	•	Drag the rocket: Click anywhere on the canvas and move your mouse left or right.
 	•	Scroll: Scroll down the page to move the camera along the rocket and reveal its full length.
 
 ⸻
 
-Notes
+### Notes
 	•	The 3D model file Lemaire.glb must be present in the public folder.
 	•	Designed as a static site; can be deployed to GitHub Pages or any static hosting service.
 
