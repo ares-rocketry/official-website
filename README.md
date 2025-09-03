@@ -37,14 +37,14 @@ my-app/
 ⸻
 
 ### Installation & Setup
-	1.	Clone the repository
+#### 1.	Clone the repository
 
 ```
 git clone <repo>
 cd <repo-name>
 ```
 
-	2.	Install Node.js dependencies
+#### 2.	Install Node.js dependencies
 
 ```npm install```
 
@@ -52,12 +52,12 @@ cd <repo-name>
 
 ```npm install three```
 
-	4.	Start the development server
+#### 4.	Start the development server
  As always, hit it with the:
 
 ```npm start```
 
-	5.	Open the app
+#### 5.	Open the app
 
 Navigate to http://localhost:3000 in your browser (for now til domain name is purchased!)
 
