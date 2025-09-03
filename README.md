@@ -5,7 +5,7 @@ A static 3D interactive website showcasing the Lemaire rocket using Three.js and
 ⸻
 
 ### Project Core Structure
-
+```
 my-app/
 ├─ public/
 │  └─ Lemaire.glb       # 3D rocket model
@@ -15,7 +15,7 @@ my-app/
 │  └─ index.js           # React entry point
 ├─ package.json
 └─ README.md
-
+```
 
 ⸻
 
