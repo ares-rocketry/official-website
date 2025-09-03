@@ -75,7 +75,7 @@ const ThreeDScene = () => {
     spotLight.penumbra = 0.5;
     scene.add(spotLight);
 
-    // Mouse event handlers for drag-to-rotate
+    // Drag-to-rotate implementation
     const onMouseDown = (event) => {
       isDragging = true;
       previousMouseX = event.clientX;
@@ -84,8 +84,8 @@ const ThreeDScene = () => {
     const onMouseMove = (event) => {
       if (isDragging && model) {
         const deltaX = event.clientX - previousMouseX;
-        // Adjust rotation speed/sensitivity here
-        model.rotation.y += deltaX * 0.005;
+        const rotationSpeed = 0.005;
+        model.rotation.y += deltaX * rotationSpeed;
         previousMouseX = event.clientX;
       }
     };
@@ -98,18 +98,24 @@ const ThreeDScene = () => {
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
 
-    // Position the camera
-    camera.position.set(0, 300, 500); // Start zoomed near the nose cone
-    camera.lookAt(0, 0, 0);
-    
-    // Animation loop
-    const animate = () => {
-      requestAnimationFrame(animate);
+    // Scroll-to-reveal implementation
+    const minY = 400;
+    const maxY = 1000;
 
+    /* CONCLUSION: wherever the camera it set, it should also look at that exact SAME spot (no tilting) 
+                    so camera only TRANSLATE vertically from tip (minY) down bottom (maxY) */
 
-      renderer.render(scene, camera);
+      camera.position.set(0, 400, 0); // y= 400 above (just at nose cone tip)
+      camera.lookAt(0, 400, 0);         // look at the rocket center
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const scrollRange = document.body.scrollHeight - window.innerHeight;
+      const scrollPercent = Math.min(scrollY / scrollRange, 1);
+      camera.position.y = minY + (maxY - minY) * scrollPercent;
+      camera.lookAt.y = minY + (maxY - minY) * scrollPercent;
     };
-    animate();
+    window.addEventListener('scroll', handleScroll);
 
     // Handle window resizing
     const handleResize = () => {
@@ -119,18 +125,14 @@ const ThreeDScene = () => {
     };
     window.addEventListener('resize', handleResize);
 
-    // scroll to move camera down and reveal rocket
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-            // Move camera Y from above rocket (400) to below rocket (-400) based on scroll
-      const minY = -400;
-      const maxY = 400;
-      const scrollRange = document.body.scrollHeight - window.innerHeight;
-      const scrollPercent = Math.min(scrollY / scrollRange, 1);
-      camera.position.y = maxY - (maxY - minY) * scrollPercent;
-      camera.lookAt(0, 0, 0);
+    // Animation loop
+    const animate = () => {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    animate();
 
     // Cleanup on component unmount
     return () => {
