@@ -65,12 +65,12 @@ const ThreeDScene = () => {
 
     // Add a point light for additional illumination
     const pointLight = new THREE.PointLight(0xffffff, 54351.413, 1000, 2); // Bright white light
-    pointLight.position.set(0, 200, 200); // Position the light above and in front of the model
+    pointLight.position.set(0, 5000, 0); // Position the light above and in front of the model
     scene.add(pointLight);
 
     // Add a spotlight for a focused beam
     const spotLight = new THREE.SpotLight(0xff00ff, 1.5); // Magenta light
-    spotLight.position.set(-200, 200, 200);
+    spotLight.position.set(0, -5000, 0);
     spotLight.angle = Math.PI / 6;
     spotLight.penumbra = 0.5;
     scene.add(spotLight);
@@ -99,21 +99,32 @@ const ThreeDScene = () => {
     window.addEventListener('mouseup', onMouseUp);
 
     // Scroll-to-reveal implementation
-    const minY = 400;
-    const maxY = 1000;
+    const minY = 300;
+    const maxY = -6500;
+    const Z = 500;
+    
+   
 
     /* CONCLUSION: wherever the camera it set, it should also look at that exact SAME spot (no tilting) 
                     so camera only TRANSLATE vertically from tip (minY) down bottom (maxY) */
 
-      camera.position.set(0, 400, 0); // y= 400 above (just at nose cone tip)
-      camera.lookAt(0, 400, 0);         // look at the rocket center
+    camera.position.set(0, minY, Z); // y= 400 above (just at nose cone tip)
+    camera.lookAt(0, minY, Z);           // Keep lookAt fixed at the rocket's position => translate the camera down
 
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const scrollRange = document.body.scrollHeight - window.innerHeight;
       const scrollPercent = Math.min(scrollY / scrollRange, 1);
       camera.position.y = minY + (maxY - minY) * scrollPercent;
-      camera.lookAt.y = minY + (maxY - minY) * scrollPercent;
+      
+      // Keep lookAt fixed at the rocket's position - don't move the target
+    
+      
+      // Update progress bar
+      const progressBar = document.getElementById('scroll-progress');
+      if (progressBar) {
+        progressBar.style.width = `${scrollPercent * 100}%`;
+      }
     };
     window.addEventListener('scroll', handleScroll);
 
@@ -131,7 +142,7 @@ const ThreeDScene = () => {
       renderer.render(scene, camera);
     };
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // window.scrollTo({ top: 0, behavior: 'smooth' }); // Commented out to allow natural scrolling
     animate();
 
     // Cleanup on component unmount

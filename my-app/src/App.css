@@ -2,7 +2,7 @@
 
 
 #three-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -11,15 +11,21 @@
   pointer-events: none; /* Prevent interaction with the 3D canvas */
 }
 
+
+
+html {
+  scroll-behavior: smooth;
+}
+
 .App {
   display: flex;
   flex-direction: column;
   text-align: center;
   justify-items: center;
   text-align: center;
-  background: linear-gradient(135deg, #2a326b 0%, #3a437a 25%, #242c4a 50%, #2c3a7a 75%, #2c2f5a 100%);
+  background: linear-gradient(135deg, #4885ca 0%, #3a437a 25%, #2a3766 50%, #fa69df 75%, #f376f1 100%);
   position: relative;
-  min-height: 100vh;
+  min-height: 200vh; /* Extended to twice viewport height for scrolling */
   z-index: 1;
   font-family: 'Orbitron', 'SF Pro Display', 'Segoe UI', monospace;
 }
@@ -29,10 +35,10 @@
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(circle at 25% 40%, rgba(59, 190, 255, 0.6) 0%, transparent 50%),
+    radial-gradient(circle at 25% 40%, rgba(8, 53, 255, 0.6) 0%, transparent 50%),
     radial-gradient(circle at 30% 65%, rgba(45, 91, 255, 0.6) 0%, transparent 50%),
     radial-gradient(circle at 75% 35%, rgba(38, 84, 201, 0.6) 0%, transparent 50%),
-    radial-gradient(circle at 70% 70%, rgba(49, 231, 255, 0.6) 0%, transparent 50%);
+    radial-gradient(circle at 70% 70%, rgba(67, 255, 246, 0.8) 0%, transparent 50%);
   animation: gentle-pulse 3s ease-in-out infinite;
   z-index: 0;
 }
