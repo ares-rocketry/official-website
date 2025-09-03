@@ -1,0 +1,299 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Tektur:wght@400..900&display=swap');
+
+
+#three-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Below other components */
+  pointer-events: none; /* Prevent interaction with the 3D canvas */
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, #2a326b 0%, #3a437a 25%, #242c4a 50%, #2c3a7a 75%, #2c2f5a 100%);
+  position: relative;
+  min-height: 100vh;
+  font-family: 'Orbitron', 'SF Pro Display', 'Segoe UI', monospace;
+}
+
+.App::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 25% 40%, rgba(59, 190, 255, 0.6) 0%, transparent 50%),
+    radial-gradient(circle at 30% 65%, rgba(45, 91, 255, 0.6) 0%, transparent 50%),
+    radial-gradient(circle at 75% 35%, rgba(38, 84, 201, 0.6) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(49, 231, 255, 0.6) 0%, transparent 50%);
+  animation: gentle-pulse 3s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes gentle-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+.ares-logo {
+  width: 50rem;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.horizontal-container {
+  display: flex;
+  padding-inline-start: 20vh;
+  align-items: flex-start; /* or center, stretch, etc. */
+  z-index: 1;
+
+}
+.vertical-container {
+  display: flex;
+  gap: 20px;
+  flex-direction: column; /* Stacks children vertically */
+  align-items: flex-end; 
+  justify-content: center;
+  z-index: 1;
+}
+
+.action-button {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--color-start); /* Use gradient */
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+  0 4px 16px rgba(59, 130, 246, 0.2),
+  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+
+
+@keyframes shimmer {   /* use this for all buttons with this effect*/
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+
+.action-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.action-button:hover::before {
+  left: 100%;
+}
+
+.action-button:hover {
+  box-shadow: 
+    0 6px 24px rgba(59, 130, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+
+/* Color variants for buttons !! */
+.button-start {
+  background: linear-gradient(135deg, #00F5D4 0%, rgb(5, 150, 138) 50%);
+  border: 1px solid #00F5D4;
+  box-shadow: 
+    0 0 20px #00F5D4, /* Neon glow */
+    0 0 40px #00F5D4, 
+    0 0 60px rgba(0, 245, 212, 0.1); /* Softer outer glow */
+}
+
+.button-stop {
+  background: linear-gradient(135deg, #F15BB5 0%, #F15BB5 50%);
+  border: 1px solid #F15BB5;
+  box-shadow: 
+    0 0 20px #F15BB5, /* Neon glow */
+    0 0 40px #F15BB5, 
+    0 0 60px rgba(241, 91, 181, 0.1); /* Softer outer glow */
+}
+
+.button-pause {
+  background: linear-gradient(135deg, #FEE440 0%, #FEE440 50%);
+  border: 1px solid #FEE440;
+  box-shadow: 
+    0 0 20px #FEE440, /* Neon glow */
+    0 0 40px #FEE440, 
+    0 0 60px rgba(254, 228, 64, 0.1); /* Softer outer glow */
+}
+
+
+
+.controls {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+
+/* FUTURISTIC GRADIENT TEXT STYLING */
+
+/* Headers with colorful gradient */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', 'SF Pro Display', monospace !important;
+  font-weight: 700;
+  background: linear-gradient(135deg, 
+    #FF1493 25%, 
+    #ffffff 10%, 
+
+    #00F5D4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0.5em 0;
+}
+
+/* Body text with subtle gradient */
+p, span, div {
+  font-family: 'Orbitron', 'SF Pro Display', monospace !important;
+  font-weight: 400;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(0, 245, 212, 0.9) 50%, 
+    rgba(255, 255, 255, 0.95) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Button text */
+button {
+  font-family: 'Orbitron', 'SF Pro Display', monospace !important;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: white !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: black !important;
+  position: relative;
+  z-index: 20;
+}
+
+/* Button Icons Fix */
+button *, .action-button * {
+  color: white !important;
+  background: unset !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: white !important;
+}
+
+
+
+/* TIMER & ICON VISIBILITY FIXES */
+
+/* Timer Card Background */
+.modern-timeline {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  -webkit-text-fill-color: greenyellow !important;  /* Timer Text Gradient */
+  position: relative;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+  padding: 12px 20px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4) !important;
+}
+
+
+
+
+/* Status Display Override - Keep Icons Visible */
+.status-display h2 {
+  background: unset !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.9) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-family: 'Orbitron', monospace !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  letter-spacing: 1px !important;
+}
+
+/* TRANSPARENT CARDS */
+.test-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 10px 0;
+  backdrop-filter: blur(10px);
+}
+
+.test-card h3, .test-card p {
+  background: unset !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.9) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  margin: 8px 0;
+}
+
+/* DISEASE ANALYSIS CARD */
+.results-section .rechart-placeholder {
+  display: flex;
+  margin: 0 auto;
+}
+
+.important-text{
+  color: red!important;
+  font-weight: bold;
+  font-size: larger;
+}
