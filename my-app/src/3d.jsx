@@ -9,6 +9,10 @@ const ThreeDScene = () => {
   useEffect(() => {
     // Set up the scene, camera, and renderer
     const scene = new THREE.Scene();
+
+    // const gridHelper = new THREE.GridHelper(100, 100, 'black', 'black');
+    // scene.add(gridHelper);
+
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // Alpha allows transparency
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -17,36 +21,34 @@ const ThreeDScene = () => {
     renderer.domElement.style.left = '0';
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
-    renderer.domElement.style.zIndex = '0'; // Place it above the gradient but below other components
 
     const container = document.getElementById('three-container');
     console.log(container);
     container.appendChild(renderer.domElement);
 
-    // Variables for mouse interaction
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetRotationY = 0;
+    // Variables for drag interaction
+    let isDragging = false;
+    let previousMouseX = 0;
     let model = null;
 
     // Load the GLTF model
     const loader = new GLTFLoader();
-    loader.load('/Lemaire.gltf', (gltf) => {
+    loader.load('/Lemaire.glb', (gltf) => {
       model = gltf.scene;
 
       const textureLoader = new THREE.TextureLoader();
 
       model.traverse((child) => {
         if (child.isMesh) {
-            console.log('Material:', child.material);
-            child.material.wireframe = true;
-            child.material.roughness = 0.5;
-            
+          console.log('Material:', child.material);
+          child.material.wireframe = false;
+          child.material.roughness = 0.5;
         }
       });
 
-      model.scale.set(5, 5, 5); // Adjust the scale of the model
-      model.position.set(-100, -500, 0); // Adjust the position of the model
+      model.scale.set(2000, 2000, 2000); // Make the model larger
+      model.position.set(0, -5000, 0); // Center the model
+      model.rotation.set(0, -15.65, 0);
       scene.add(model);
     });
 
@@ -73,31 +75,37 @@ const ThreeDScene = () => {
     spotLight.penumbra = 0.5;
     scene.add(spotLight);
 
-    // Add mousemove event listener
-    window.addEventListener('mousemove', (event) => {
-      const windowHalfX = window.innerWidth / 2;
-      const windowHalfY = window.innerHeight / 2;
+    // Mouse event handlers for drag-to-rotate
+    const onMouseDown = (event) => {
+      isDragging = true;
+      previousMouseX = event.clientX;
+    };
 
-      mouseX = (event.clientX - windowHalfX) / windowHalfX;
-      mouseY = (event.clientY - windowHalfY) / windowHalfY;
-    });
+    const onMouseMove = (event) => {
+      if (isDragging && model) {
+        const deltaX = event.clientX - previousMouseX;
+        // Adjust rotation speed/sensitivity here
+        model.rotation.y += deltaX * 0.005;
+        previousMouseX = event.clientX;
+      }
+    };
+
+    const onMouseUp = () => {
+      isDragging = false;
+    };
+
+    renderer.domElement.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
 
     // Position the camera
-    camera.position.set(0, 0, 500); // Center the camera and move it back
-    camera.position.z = 500;
+    camera.position.set(0, 300, 500); // Start zoomed near the nose cone
+    camera.lookAt(0, 0, 0);
     
     // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
 
-      //  mouseX * 0.5 -> adjust sensitivity so it's smoother and not too fast
-            // * 0.05 = slows/smooths out rotation 
-      targetRotationY += (mouseX * 0.5 - targetRotationY) * 0.05;  // taretRotationY = rotates around y-axis = rotate horizontally
-
-
-      if (model) {
-        model.rotation.y = targetRotationY;
-      }
 
       renderer.render(scene, camera);
     };
@@ -111,10 +119,26 @@ const ThreeDScene = () => {
     };
     window.addEventListener('resize', handleResize);
 
+    // scroll to move camera down and reveal rocket
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+            // Move camera Y from above rocket (400) to below rocket (-400) based on scroll
+      const minY = -400;
+      const maxY = 400;
+      const scrollRange = document.body.scrollHeight - window.innerHeight;
+      const scrollPercent = Math.min(scrollY / scrollRange, 1);
+      camera.position.y = maxY - (maxY - minY) * scrollPercent;
+      camera.lookAt(0, 0, 0);
+    };
+    window.addEventListener('scroll', handleScroll);
+
     // Cleanup on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', null);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+      renderer.domElement.removeEventListener('mousedown', onMouseDown);
       renderer.dispose();
       container.removeChild(renderer.domElement);
     };

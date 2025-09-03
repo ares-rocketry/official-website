@@ -31,11 +31,9 @@ function App() {
   return (
      <div className="App">
       <div id="three-container">
-
-      <ThreeDScene  />
-
+        <ThreeDScene  />
       </div>
-        
+      
 
       <header className="App-header">
          <img className="ares-logo" src="/ares-logo.png" alt="Ares Logo"/>
@@ -43,7 +41,7 @@ function App() {
  
       <main>
           <div className='horizontal-container'>
-                 
+        
               <div className='vertical-container'>
                    
 

@@ -20,6 +20,7 @@
   background: linear-gradient(135deg, #2a326b 0%, #3a437a 25%, #242c4a 50%, #2c3a7a 75%, #2c2f5a 100%);
   position: relative;
   min-height: 100vh;
+  z-index: 1;
   font-family: 'Orbitron', 'SF Pro Display', 'Segoe UI', monospace;
 }
 
@@ -55,6 +56,7 @@
   justify-content: center;
   text-align: center;
   width: 100%;
+  z-index: 1;
 }
 
 .ares-logo {
