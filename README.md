@@ -63,12 +63,13 @@ Navigate to http://localhost:3000 in your browser (for now til domain name is pu
 
 ⸻
 ### Usage
-	•	Drag the rocket: Click anywhere on the canvas and move your mouse left or right.
-	•	Scroll: Scroll down the page to move the camera along the rocket and reveal its full length.
+-	Drag the rocket: Click anywhere on the canvas and move your mouse left or right.
+-	Scroll: Scroll down the page to move the camera along the rocket and reveal its full length.
+-	Read components' labels, documentation and their teams' intro!
 
 ⸻
 
 ### Notes
-	•	The 3D model file Lemaire.glb must be present in the public folder.
-	•	Designed as a static site; can be deployed to GitHub Pages or any static hosting service.
+-	The 3D model file Lemaire.glb must be present in the public folder.
+-	Designed as a static site; can be deployed to GitHub Pages or any static hosting service.
 
