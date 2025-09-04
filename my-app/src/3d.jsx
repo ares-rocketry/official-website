@@ -34,6 +34,10 @@ const ThreeDScene = () => {
     let previousMouseX = 0;
     let model = null;
 
+    // Create a wrapper Object3D for the rocket model
+    const rocketWrapper = new THREE.Object3D();
+    rocketWrapper.position.set(0, -300, 0);
+
     // Load the GLTF model
     const loader = new GLTFLoader();
     loader.load('/Lemaire.glb', (gltf) => {
@@ -49,10 +53,16 @@ const ThreeDScene = () => {
         }
       });
 
-      model.scale.set(2000, 2000, 2000); // Make the model larger
-      model.position.set(0, -5000, 0); // Center the model
+      // Adjust model position relative to wrapper so the pivot is at desired point (e.g., nose of rocket)
+      model.position.set(0, -5000, 0); // Center the model relative to wrapper
       model.rotation.set(0, -15.65, 0);
-      scene.add(model);
+      model.scale.set(2000, 2000, 2000); // Make the model larger
+
+      // Add model to wrapper
+      rocketWrapper.add(model);
+
+      // Add wrapper to scene instead of model
+      scene.add(rocketWrapper);
     });
 
 
@@ -89,9 +99,9 @@ const ThreeDScene = () => {
       if (isDragging && model) {
         const deltaX = event.clientX - previousMouseX;
         const rotationSpeed = 0.005;
-        model.rotation.y += deltaX * rotationSpeed;
+        rocketWrapper.rotation.y += deltaX * rotationSpeed;
         previousMouseX = event.clientX;
-        console.log('Rotating model, new rotation:', model.rotation.y);
+        console.log('Rotating model, new rotation:', rocketWrapper.rotation.y);
       }
     };
 
@@ -150,6 +160,9 @@ const ThreeDScene = () => {
     // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
+      if (model && !isDragging) {
+        rocketWrapper.rotation.y += 0.002; // Automatic rotation around Y-axis
+      }
       renderer.render(scene, camera);
     };
 
