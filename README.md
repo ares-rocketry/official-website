@@ -2,6 +2,8 @@
 
 A static 3D interactive website showcasing the Lemaire rocket using Three.js and React. Users can drag to rotate the rocket and scroll to reveal its full height.
 
+![UI-draft1]('/UI-draft1.png')
+![UI-draft1-2]('/UI-draft1-2.png')
 ⸻
 
 ### Project Core Structure
